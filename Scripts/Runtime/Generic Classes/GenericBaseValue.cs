@@ -59,6 +59,7 @@ namespace Rubi.BaseValues
             {
                 this.useScriptableObject = value != null;
                 this.valueObject = value;
+                CheckValueObjectChange();
             }
             get => this.valueObject;
         }
