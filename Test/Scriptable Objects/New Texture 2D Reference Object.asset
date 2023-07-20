@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad5ccdc6f25d3e4987c1d35853adddf, type: 3}
+  m_Script: {fileID: 11500000, guid: 306b1a84fd43e8d449b52ebf2b510db7, type: 3}
   m_Name: New Texture 2D Reference Object
   m_EditorClassIdentifier: 
   value: {fileID: 0}

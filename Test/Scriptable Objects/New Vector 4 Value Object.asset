@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab72805a2057174cbcb7d961b8f4e4e, type: 3}
   m_Name: New Vector 4 Value Object
   m_EditorClassIdentifier: 
-  value: {x: 0, y: 0, z: 0, w: 0}
+  value: {x: 0, y: 0, z: 2, w: 0}
   constantValue: 0

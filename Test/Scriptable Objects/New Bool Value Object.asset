@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a939e9b6dba19649b86c7cd8038e3a1, type: 3}
+  m_Script: {fileID: 11500000, guid: c4f88cdb0b15d3d4693f0cc95d8ca4c5, type: 3}
   m_Name: New Bool Value Object
   m_EditorClassIdentifier: 
   value: 0

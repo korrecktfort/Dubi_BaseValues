@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dubi.BaseValues
@@ -10,5 +11,9 @@ namespace Dubi.BaseValues
         [SerializeField] int selection = 0;
         [SerializeField] U collection = null;
 #pragma warning restore
+
+        public T[] Array => this.collection?.Array;
+
+        public List<T> List => this.collection?.List;
     }
 }
