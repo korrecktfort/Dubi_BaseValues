@@ -9,6 +9,7 @@ public abstract class CollectionDrawer<T, U> : PropertyDrawer where U : Collecti
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         EditorGUI.BeginProperty(position, label, property);
+        position.height = EditorGUIUtility.singleLineHeight;
 
         SerializedProperty collection = property.FindPropertyRelative("collection");
         if(collection.objectReferenceValue == null)
@@ -19,7 +20,6 @@ public abstract class CollectionDrawer<T, U> : PropertyDrawer where U : Collecti
 
         float width = position.width;        
         float buttonWidth = EditorGUIUtility.singleLineHeight;
-        position.height = EditorGUIUtility.singleLineHeight;
         
         float fieldWidth = (width - buttonWidth * 2.0f) * 0.5f;
 
@@ -71,7 +71,7 @@ public abstract class CollectionDrawer<T, U> : PropertyDrawer where U : Collecti
                 property.serializedObject.ApplyModifiedProperties();
             }
         }     
-    }    
+    }
 }
 
 [CustomPropertyDrawer(typeof(ColorCollection))]
