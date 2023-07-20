@@ -153,10 +153,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stringSelectionValue:
-    forceScriptableObject: 0
+    forceScriptableObject: 1
     useScriptableObject: 1
     value: 0
     valueObject: {fileID: 0}
+  materialSelectionValue:
+    forceScriptableObject: 1
+    useScriptableObject: 1
+    value: 0
+    valueObject: {fileID: 0}
+  gradientSelectionValue:
+    forceScriptableObject: 1
+    useScriptableObject: 1
+    value: 0
+    valueObject: {fileID: 11400000, guid: 7759d9fea10c2b64d97a2e745a1b9c64, type: 2}
 --- !u!4 &425870590
 Transform:
   m_ObjectHideFlags: 0
