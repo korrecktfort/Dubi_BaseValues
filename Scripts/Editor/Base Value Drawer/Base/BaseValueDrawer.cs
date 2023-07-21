@@ -132,28 +132,43 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
     protected void Call()
     {
         if (EditorApplication.isPlaying)
-            GetTargetObject<BaseValue>(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath)?.Call();      
+            ((BaseValue)GetTargetObject(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath))?.Call();      
     }
 
     protected void CheckValueObjectChange()
     {
         if (EditorApplication.isPlaying)
-            GetTargetObject<BaseValue>(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath)?.CheckValueObjectChange();
+            ((BaseValue)GetTargetObject(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath))?.CheckValueObjectChange();
     }
 
     protected void CheckUseScriptableObject()
     {
         if (EditorApplication.isPlaying)
-            GetTargetObject<BaseValue>(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath)?.CheckUseScriptableObject();
+            ((BaseValue)GetTargetObject(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath))?.CheckUseScriptableObject();
     }
 
-    U GetTargetObject<U>(object target, string path) where U : class
+    object GetTargetObject(object target, string path)
     {            
         string name = path[(path.LastIndexOf(".") + 1)..];
         BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         if (!path.Contains("."))
-            return (U)target.GetType().GetField(name, flags).GetValue(target);
+        {
+            int maxIteration = 100;
+            Type type = target.GetType();
+            do
+            {
+                maxIteration--;
+
+                if (maxIteration == 0)
+                    throw new Exception("Max iteration reached");
+
+                type = type.BaseType;
+
+            } while (type.GetField(name, flags) == null);                       
+
+            return type.GetField(name, flags).GetValue(target);           
+        }
 
         do
         {
@@ -168,10 +183,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
 
                 if (int.TryParse(path[s0..s1].ToString(), out int index))
                 {
-                    object baseValue = GetTargetObject<U>(array.GetValue(index), path[(path.LastIndexOf("]") + 2)..]);
-                    
-                    if (baseValue != null && baseValue is U value)
-                        return value;
+                    return GetTargetObject(array.GetValue(index), path[(path.LastIndexOf("]") + 2)..]);                    
                 }     
             }
             else
@@ -180,9 +192,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
 
                 if (fieldInfo != null)
                 {
-                    object baseValue = fieldInfo.GetValue(target);
-                    if (baseValue is U value)
-                        return value;
+                   return fieldInfo.GetValue(target);                    
                 }                              
             }            
 
