@@ -8,9 +8,7 @@ namespace Dubi.BaseValues
     {        
         public List<T> List => this.list;
 
-        public T[] Array => this.list.ToArray();
-
-        public T Value => this.list.Count > 0 ? this.list[0] : default;
+        public T[] Array => this.list.ToArray();        
 
         [SerializeField] List<T> list = new List<T>();
     }

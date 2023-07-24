@@ -12,7 +12,7 @@ namespace Dubi.BaseValues
         [SerializeField] U collection = null;
 #pragma warning restore
 
-        public T SelectedValue => this.collection.Value;
+        public T SelectedValue => this.collection.List[selection];
 
         public T[] Array => this.collection?.Array;
 
