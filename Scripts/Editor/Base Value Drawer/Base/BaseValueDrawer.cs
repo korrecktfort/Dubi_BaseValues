@@ -156,6 +156,10 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
         {
             int maxIteration = 100;
             Type type = target.GetType();
+
+            if(type.GetField(name, flags) != null)
+                return type.GetField(name, flags).GetValue(target);
+
             do
             {
                 maxIteration--;
@@ -165,9 +169,12 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
 
                 type = type.BaseType;
 
-            } while (type.GetField(name, flags) == null);                       
+                if (type.GetField(name, flags) != null)
+                    return type.GetField(name, flags).GetValue(target);
 
-            return type.GetField(name, flags).GetValue(target);           
+            } while (type.GetField(name, flags) == null);
+
+            return null;
         }
 
         do
