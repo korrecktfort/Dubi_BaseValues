@@ -267,9 +267,11 @@ public static class BaseValueHelper
                 case SerializedPropertyType.Bounds:
                     stringList.Add(prop.boundsValue.ToString());
                     break;
+#if UNITY_2023_1_OR_NEWER
                 case SerializedPropertyType.Gradient:
                     stringList.Add(prop.gradientValue.ToString());
                     break;
+#endif
                 case SerializedPropertyType.Quaternion:
                     stringList.Add(prop.quaternionValue.ToString());
                     break;
