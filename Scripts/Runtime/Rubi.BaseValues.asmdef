@@ -2,8 +2,7 @@
     "name": "Rubi.BaseValues",
     "rootNamespace": "",
     "references": [
-        "GUID:6d9dba9017c9db04db491dac6a2561a1",
-        "GUID:ad06bc9a67f493c4298633f1457e85c4"
+        "GUID:6d9dba9017c9db04db491dac6a2561a1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
