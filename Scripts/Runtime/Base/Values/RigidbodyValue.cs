@@ -10,6 +10,11 @@ namespace Dubi.BaseValues
         {
         }
 
+        public void DeregisterCallback(object onRigidValueChanged)
+        {
+            throw new NotImplementedException();
+        }
+
         public void RegisterCallback(object onRigidChanged)
         {
             throw new NotImplementedException();

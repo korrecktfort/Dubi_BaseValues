@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace Dubi.BaseValues
+{
+    [System.Serializable]
+    public class ActionValueInt : ActionValue<int>
+    {
+        public ActionValueInt(Action<int> value) : base(value)
+        {
+        }
+    }
+}
