@@ -328,37 +328,28 @@ namespace Dubi.BaseValues
 
         public void CheckUseScriptableObject()
         {
-            /// On Value Source Change
-            if (this.useScriptableObject != this.oldUseScriptableObject)
+            /// On Value Source Change            
+            if (this.UseRawValue)
             {
-                /// On Value Change
-                if (this.UseRawValue)
+                if(this.valueObject != null)
                 {
-                    if(this.valueObject != null)
-                    {
-                        this.valueObject.DeregisterDelegate(this.OnValueChanged);
-                        this.valueObject.DeregisterDelegateNoType(this.OnValueChangedNoType);
-                    }
-
-                    Call();
+                    this.valueObject.DeregisterDelegate(this.OnValueChanged);
+                    this.valueObject.DeregisterDelegateNoType(this.OnValueChangedNoType);
                 }
-                else
-                {
-                    if (this.OnValueChanged != null)
-                    {
-                        this.OnValueChanged?.Invoke(this.valueObject.value);
-                        this.valueObject?.RegisterDelegate(this.OnValueChanged);
-                    }
-
-                    if (this.OnValueChangedNoType != null)
-                    {
-                        this.OnValueChangedNoType?.Invoke();
-                        this.valueObject?.RegisterDelegateNoType(this.OnValueChangedNoType);
-                    }
-                }
-
-                this.oldUseScriptableObject = this.useScriptableObject;
             }
+            else
+            {
+                if (this.OnValueChanged != null)                                    
+                    this.valueObject?.RegisterDelegate(this.OnValueChanged);
+                
+
+                if (this.OnValueChangedNoType != null)                                    
+                    this.valueObject?.RegisterDelegateNoType(this.OnValueChangedNoType);                
+            }
+
+            this.oldUseScriptableObject = this.useScriptableObject;
+
+            Call();
         }
     }
 }
