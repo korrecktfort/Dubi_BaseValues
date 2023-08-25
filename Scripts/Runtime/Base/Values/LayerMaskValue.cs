@@ -9,5 +9,15 @@ namespace Dubi.BaseValues
         public LayerMaskValue(LayerMask value) : base(value)
         {
         }
+
+        public LayerMask Inverted()
+        {
+            return ~this.Value;
+        }
+
+        public bool Contains(LayerMask layer)
+        {
+            return (this.Value & layer) == layer;
+        }
     }
 }
