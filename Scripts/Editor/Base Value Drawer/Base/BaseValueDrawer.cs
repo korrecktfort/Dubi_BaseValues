@@ -85,7 +85,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
         }
         else /// using raw value
         {
-            SerializedProperty rawValueProperty = baseProperty.FindPropertyRelative("value");
+            SerializedProperty rawValueProperty = baseProperty.FindPropertyRelative("value");            
             DisplayValueField(position, rawValueProperty);
         }
 
@@ -101,6 +101,9 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
 
     protected virtual void DisplayValueField(Rect position, SerializedProperty property)
     {
+        if (property == null)
+            return;
+
         EditorGUI.BeginChangeCheck();
         
         float labelWidth = EditorGUIUtility.labelWidth;

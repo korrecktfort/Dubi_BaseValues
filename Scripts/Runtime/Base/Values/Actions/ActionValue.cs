@@ -7,7 +7,11 @@ namespace Dubi.BaseValues
     [System.Serializable]
     public class ActionValue : GenericBaseValue<Action, ActionObject, BaseValueUpdater>
     {
-        public ActionValue(Action value) : base(value, true)
+        public ActionValue() : base(null, true)
+        {
+        }
+
+        public ActionValue(Action value, bool force = true) : base(value, force)
         {
         }
     }
@@ -15,8 +19,12 @@ namespace Dubi.BaseValues
     [System.Serializable]
     public abstract class ActionValue<T> : GenericBaseValue<Action<T>, ActionObject<T>, BaseValueUpdater>
     {
-        protected ActionValue(Action<T> value) : base(value, true)
+        public ActionValue() : base(null, true)
         {
+        }
+
+        public ActionValue(Action<T> value, bool force = true) : base(value, force)
+        { 
         }
     }
 }
