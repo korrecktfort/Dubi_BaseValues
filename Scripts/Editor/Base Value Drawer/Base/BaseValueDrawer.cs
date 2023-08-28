@@ -218,6 +218,9 @@ public static class BaseValueHelper
 {
     public static SerializedProperty GetValueProp(SerializedProperty baseValueProperty)
     {
+        if (baseValueProperty == null)
+            return null;
+
         SerializedProperty valueObjectProperty = baseValueProperty.FindPropertyRelative("valueObject");
         if(baseValueProperty.FindPropertyRelative("useScriptableObject").boolValue && valueObjectProperty.objectReferenceValue != null)
         {
