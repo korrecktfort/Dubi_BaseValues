@@ -23,6 +23,12 @@ namespace Dubi.BaseValues
             get => this.OnValueChangedArrayNoType != null && this.OnValueChangedArrayNoType.Length > 0;
         }
 
+        public void SetValue(T value)
+        {
+            this.value = value;
+            Call();
+        }
+
         public void Call()
         {
             foreach (System.Action<T> action in this.OnValueChangedArray)            
