@@ -14,5 +14,11 @@ namespace Dubi.BaseValues
     public abstract class ActionObject<T> : GenericValueObject<Action<T>>
     {
         [NonSerialized] public new Action<T> value;
+
+        public void Invoke(T value)
+        {
+            base.value?.Invoke(value);
+        }
     }
+
 }

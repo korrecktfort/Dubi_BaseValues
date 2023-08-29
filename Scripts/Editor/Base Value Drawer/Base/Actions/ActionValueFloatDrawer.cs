@@ -5,5 +5,3 @@ using UnityEditor;
 public class ActionValueFloatDrawer : BaseValueDrawer<ActionObjectFloat>
 {
 }
-
-
