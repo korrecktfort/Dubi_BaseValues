@@ -21,7 +21,7 @@ namespace Dubi.BaseValues
 
         public bool Contains(LayerMask layer)
         {
-            return (this.Value & layer) == layer;
+            return (this.Value.value & 1 << layer) > 0;
         }
     }
 }
