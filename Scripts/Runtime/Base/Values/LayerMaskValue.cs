@@ -23,5 +23,13 @@ namespace Dubi.BaseValues
         {
             return (this.Value.value & 1 << layer) > 0;
         }
+
+        public bool Contains(Collision collision)
+        {
+            if (collision == null)
+                return false;
+
+            return this.Contains(collision.gameObject.layer);
+        }
     }
 }
