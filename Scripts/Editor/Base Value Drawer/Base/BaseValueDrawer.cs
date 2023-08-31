@@ -10,7 +10,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
 {    
     public SerializedProperty valueObject;
     public SerializedProperty baseProperty;
-    float gapAfterButton = 10.0f;
+    protected float gapAfterButton = 10.0f;
 
     public override void OnGUI(Rect position, SerializedProperty baseProperty, GUIContent label)
     {
@@ -58,6 +58,8 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
         /// if using scriptable object
         position.x += dropDownWidth;
         position.width = noSOValueFieldWidth;
+        SerializedProperty valueProp = null;
+        bool disableField = true;
         if (useScriptableObject.boolValue)
         {
             this.valueObject = baseProperty.FindPropertyRelative("valueObject");
@@ -65,9 +67,10 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
             if (this.valueObject.objectReferenceValue != null)
             {
                 SerializedObject serializedObject = new SerializedObject(this.valueObject.objectReferenceValue);
-                SerializedProperty valueProp = serializedObject.FindProperty("value");
+                valueProp = serializedObject.FindProperty("value");
 
-                EditorGUI.BeginDisabledGroup(serializedObject.FindProperty("constantValue").boolValue);               
+                disableField = serializedObject.FindProperty("constantValue").boolValue;
+                EditorGUI.BeginDisabledGroup(disableField);               
                 position.width = valueFieldWidthSO;
                 DisplayValueField(position, valueProp);
                 position.x += valueFieldWidthSO;
@@ -85,8 +88,8 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
         }
         else /// using raw value
         {
-            SerializedProperty rawValueProperty = baseProperty.FindPropertyRelative("value");            
-            DisplayValueField(position, rawValueProperty);
+            valueProp = baseProperty.FindPropertyRelative("value");            
+            DisplayValueField(position, valueProp);
         }
 
         EditorGUI.indentLevel = indent;
@@ -94,7 +97,12 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
         position.x = x;
         position.width = rectWidth;
         position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-        DrawAdditionalFields(position, baseProperty);
+        
+        EditorGUI.indentLevel++;
+        EditorGUI.BeginDisabledGroup(disableField);
+        DrawAdditionalFields(position, valueProp);
+        EditorGUI.EndDisabledGroup();
+        EditorGUI.indentLevel--;
 
         EditorGUI.EndProperty();
     }
@@ -123,7 +131,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
         position.x = position.x + position.width + gap;
     }
 
-    public virtual void DrawAdditionalFields(Rect position, SerializedProperty baseProperty)
+    public virtual void DrawAdditionalFields(Rect position, SerializedProperty valueProp)
     {
     }
 
