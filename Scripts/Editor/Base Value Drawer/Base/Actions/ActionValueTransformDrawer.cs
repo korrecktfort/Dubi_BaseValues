@@ -6,4 +6,3 @@ public class ActionValueTransformDrawer : BaseValueDrawer<ActionObjectTransform>
 {
 }
 
-
