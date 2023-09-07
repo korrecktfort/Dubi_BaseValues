@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Dubi.BaseValues;
 
-[CustomPropertyDrawer(typeof(SpriteReference))]
+[CustomPropertyDrawer(typeof(SpriteValue))]
 public class SpriteValueDrawer : BaseValueDrawer<SpriteObject>
 {   
 }

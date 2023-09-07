@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Dubi.BaseValues;
 
-[CustomPropertyDrawer(typeof(GameObjectReference))]
+[CustomPropertyDrawer(typeof(GameObjectValue))]
 public class GameObjectReferenceDrawer : BaseValueDrawer<GameObjectObject>
 {
     

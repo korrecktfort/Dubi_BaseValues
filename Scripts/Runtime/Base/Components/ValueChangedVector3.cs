@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace Dubi.BaseValues
 {
-    public class SendValueVector3 : MonoBehaviour
+    public class ValueChangedVector3 : MonoBehaviour
     {
         [SerializeField] Vector3Value vector3Value = null;
         [SerializeField] UnityEvent<Vector3> onValueChanged = null;
@@ -25,4 +25,6 @@ namespace Dubi.BaseValues
             this.onValueChanged?.Invoke(value);
         }
     }
+
+
 }

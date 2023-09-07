@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Dubi.BaseValues
 {
     [System.Serializable]
-    public class SpriteReference : GenericBaseValue<Sprite, SpriteObject, BaseValueUpdater>
+    public class GameObjectValue : GenericBaseValue<GameObject, GameObjectObject, BaseValueUpdater>
     {
-        public SpriteReference(Sprite value) : base(value)
+        public GameObjectValue(GameObject value) : base(value)
         {
         }
     }
