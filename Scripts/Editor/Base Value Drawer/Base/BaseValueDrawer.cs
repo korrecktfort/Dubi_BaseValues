@@ -137,7 +137,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
 
     public virtual float ValueFieldWidth()
     {
-        return 100.0f;
+        return 150.0f;
     }
 
     protected void Call()

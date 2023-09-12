@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ namespace Dubi.BaseValues
     {
         public Vector2Value(Vector2 value) : base(value)
         {
+        }
+
+        public void RegisterCallback(object onScreenResolutionChanged)
+        {
+            throw new NotImplementedException();
         }
     }
 }
