@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7e9929066750b458a0588d0f8b569c, type: 3}
   m_Name: New Color Selection Object
   m_EditorClassIdentifier: 
-  value: 2
+  value: 0
   constantValue: 0
   items:
-  - {r: 0, g: 1, b: 0.5382376, a: 1}
+  - {r: 0.8657522, g: 0, b: 1, a: 1}
   - {r: 0.11792451, g: 1, b: 1, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
