@@ -5,6 +5,8 @@ using UnityEditor;
 using Dubi.BaseValues;
 using System.Reflection;
 using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 
 public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableObject
 {    
@@ -79,7 +81,9 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
             }          
 
             EditorGUI.BeginChangeCheck();
+
             EditorGUI.ObjectField(position, this.valueObject, typeof(T), GUIContent.none);
+
             if (EditorGUI.EndChangeCheck())
             {
                 this.valueObject.serializedObject.ApplyModifiedProperties();
@@ -237,6 +241,17 @@ public static class BaseValueHelper
         }
 
         return baseValueProperty.FindPropertyRelative("value");
+    }
+
+
+    public static List<string> GetArrayIndexList(this SerializedProperty itemsProp)
+    {
+        List<string> list = new List<string>();
+        for (int i = 0; i < itemsProp.arraySize; i++)
+        {
+            list.Add(i.ToString());
+        }
+        return list;
     }
 
     public static List<string> GetStringList(this SerializedProperty itemsProp)

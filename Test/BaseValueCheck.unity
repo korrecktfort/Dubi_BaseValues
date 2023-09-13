@@ -152,17 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 408efdde667bc524f965bf126f86eb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringSelectionValue:
+  colorCollection: {fileID: 11400000, guid: 961fba6c5926d534c9695e4659020275, type: 2}
+  colorSelection:
     forceScriptableObject: 1
     useScriptableObject: 1
     value: 0
-    valueObject: {fileID: 11400000, guid: cc772191c6b03e742874cc9c77055d4c, type: 2}
-  colorCollection:
-    selection: 1
-    collection: {fileID: 11400000, guid: fe5de3f3246261c4b97512c049ba6215, type: 2}
-  stringCollection:
-    selection: 0
-    collection: {fileID: 11400000, guid: 0869c7cb4751d934b9c13bb8574cbcc2, type: 2}
+    valueObject: {fileID: 11400000, guid: 3ad3a4c48bad9694bbe54e56bbb3d1ad, type: 2}
 --- !u!4 &425870590
 Transform:
   m_ObjectHideFlags: 0

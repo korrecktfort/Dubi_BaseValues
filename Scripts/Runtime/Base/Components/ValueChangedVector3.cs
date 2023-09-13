@@ -5,26 +5,7 @@ using UnityEngine.Events;
 
 namespace Dubi.BaseValues
 {
-    public class ValueChangedVector3 : MonoBehaviour
-    {
-        [SerializeField] Vector3Value vector3Value = null;
-        [SerializeField] UnityEvent<Vector3> onValueChanged = null;
-
-        private void OnEnable()
-        {
-            this.vector3Value.RegisterCallback(SendValue);
-        }
-
-        private void OnDisable()
-        {
-            this.vector3Value.DeregisterCallback(SendValue);
-        }
-
-        public void SendValue(Vector3 value)
-        {         
-            this.onValueChanged?.Invoke(value);
-        }
+    public class ValueChangedVector3 : ValueChanged<Vector3Value, Vector3>
+    {        
     }
-
-
 }

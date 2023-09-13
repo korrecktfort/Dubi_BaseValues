@@ -6,7 +6,7 @@ using System;
 namespace Dubi.BaseValues
 {
     [System.Serializable]
-    public abstract class GenericBaseValue<T, U, V> : BaseValue where U : GenericValueObject<T> where V : ValueUpdater<V>
+    public abstract class GenericBaseValue<T, U, V> : BaseValue<T> where U : GenericValueObject<T> where V : ValueUpdater<V>
     {
         ValueUpdater<V> updater = null;
 

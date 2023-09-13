@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class BaseValueCheckComponent : MonoBehaviour
 {
 #pragma warning disable
-    [SerializeField] StringSelection stringSelectionValue = new StringSelection();
+    // [SerializeField] StringSelection stringSelectionValue = new StringSelection();
+    [SerializeField] ColorValue colorValue = null;
     [SerializeField] ColorCollection colorCollection = null;
-    [SerializeField] StringCollection stringCollection = null;
+    [SerializeField] ColorSelection colorSelection = null;
 #pragma warning restore
 }
