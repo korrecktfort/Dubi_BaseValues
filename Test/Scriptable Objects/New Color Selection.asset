@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0827f17723059b3479ca0874363d396f, type: 3}
-  m_Name: New Color Value Object
+  m_Script: {fileID: 11500000, guid: 7baed2d3a7d55ed47ad95379a7dddb60, type: 3}
+  m_Name: New Color Selection
   m_EditorClassIdentifier: 
-  value: {r: 0.17621933, g: 0.8301887, b: 0.7034887, a: 0.69411767}
-  constantValue: 0
+  value: {r: 0, g: 0, b: 0, a: 0}
+  selectionIndex: 0
+  collection: {fileID: 11400000, guid: 961fba6c5926d534c9695e4659020275, type: 2}

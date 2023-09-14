@@ -154,10 +154,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorValue:
     forceScriptableObject: 0
-    useScriptableObject: 0
+    useScriptableObject: 1
     value: {r: 0, g: 0, b: 0, a: 0}
     valueObject: {fileID: 11400000, guid: aee89c3feb24c324e917de25a68b8c9e, type: 2}
   colorCollection: {fileID: 11400000, guid: 961fba6c5926d534c9695e4659020275, type: 2}
+  colorSelection: {fileID: 11400000, guid: 378cb83d2253ab34db01a95022ce950d, type: 2}
 --- !u!4 &425870590
 Transform:
   m_ObjectHideFlags: 0
@@ -382,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value:
     forceScriptableObject: 0
-    useScriptableObject: 0
+    useScriptableObject: 1
     value: {r: 0, g: 0, b: 0, a: 0}
     valueObject: {fileID: 11400000, guid: aee89c3feb24c324e917de25a68b8c9e, type: 2}
   onValueChanged:
@@ -408,7 +409,7 @@ MonoBehaviour:
   late:
     forceScriptableObject: 0
     useScriptableObject: 0
-    value: 1
+    value: 0
     valueObject: {fileID: 0}
 --- !u!1 &1747119337
 GameObject:
