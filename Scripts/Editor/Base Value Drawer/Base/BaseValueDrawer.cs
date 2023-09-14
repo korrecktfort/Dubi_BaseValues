@@ -147,7 +147,7 @@ public abstract class BaseValueDrawer<T> : PropertyDrawer where T : ScriptableOb
     protected void Call()
     {
         if (EditorApplication.isPlaying)
-            ((BaseValue)GetTargetObject(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath))?.Call();      
+            ((BaseValue)GetTargetObject(this.baseProperty.serializedObject.targetObject, this.baseProperty.propertyPath))?.OnValueChanged();      
     }
 
     protected void CheckValueObjectChange()

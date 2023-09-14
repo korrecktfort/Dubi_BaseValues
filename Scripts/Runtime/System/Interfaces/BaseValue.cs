@@ -7,7 +7,7 @@ namespace Dubi.BaseValues
 {
     public interface BaseValue
     {
-        public void Call();
+        public void OnValueChanged();
 
         public void CheckValueObjectChange();
 

@@ -10,6 +10,6 @@ public class BaseValueCheckComponent : MonoBehaviour
     // [SerializeField] StringSelection stringSelectionValue = new StringSelection();
     [SerializeField] ColorValue colorValue = null;
     [SerializeField] ColorCollection colorCollection = null;
-    [SerializeField] ColorSelection colorSelection = null;
+    //[SerializeField] ColorSelection colorSelection = null;
 #pragma warning restore
 }

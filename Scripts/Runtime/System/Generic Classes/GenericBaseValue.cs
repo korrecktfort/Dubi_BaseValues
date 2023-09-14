@@ -16,40 +16,33 @@ namespace Dubi.BaseValues
  
         [SerializeField] T value;
         
-        System.Action<T> OnValueChanged = null;
-        System.Action OnValueChangedNoType = null;
+        [NonSerialized] Action<T> onValueChanged = null;
+        [NonSerialized] Action onValueChangedNoType = null;
+
+        [NonSerialized] Action<T> onValueChangedLate = null;
+        [NonSerialized] Action onValueChangedNoTypeLate = null;
 
         [SerializeField] U valueObject = null;
         U oldValueObject = null;
 
-        UpdateType localUpdateType;
-        UpdateType localUpdateTypeNoType;
-
         bool UseRawValue => !this.useScriptableObject || (this.useScriptableObject && this.valueObject == null);
 
-        public bool IsConstant => this.useScriptableObject && this.valueObject != null && this.valueObject.constantValue;
+        public bool IsConstant => this.useScriptableObject && this.valueObject != null && this.valueObject.ConstantValue;
 
         bool Quitting => this.updater != null && this.updater.LocalQuitting;
 
         public T Value
         {
-            get
-            {
-                return (this.UseRawValue ? this.value : this.valueObject.value);
-            }
-
+            get => this.UseRawValue ? this.value : this.valueObject.Value;
+            
             set
             {
-                if (this.UseRawValue)
-                {
-                    this.value = value;
-                }
-                else
-                {
-                    this.valueObject.value = value;
-                }
+                if (this.UseRawValue)                
+                    this.value = value;                
+                else                
+                    this.valueObject.Value = value;
 
-                CallOnValueChange();
+                OnValueChanged();
             }
         }
 
@@ -76,234 +69,170 @@ namespace Dubi.BaseValues
         }
 
         public GenericBaseValue(T value, bool forceScriptableObject) : this(value)
-        {      
+        {
             if (forceScriptableObject)
             {
                 this.forceScriptableObject = forceScriptableObject;
                 this.useScriptableObject = true;
             }
-        }      
-
-        #region Register To Update Loop
-
-        void RegisterToUpdateLoop(UpdateType updateType)
-        {
-            /// Check if denied, then if i or my value object has callbacks registered
-            this.updater?.Register(updateType, this as BaseValue);            
         }
-
-        void DeregisterFromUpdateLoop(UpdateType updateType)
-        {
-            /// Check if denied, then if i or my value object has callbacks registered
-            this.updater?.Deregister(updateType, this as BaseValue);
-        }
-
-        void RegisterToUpdateLoopNoType(UpdateType updateType)
-        {
-            /// Check if denied, then if i or my value object has callbacks registered
-            this.updater?.Register(updateType, this as BaseValue);
-        }
-
-        void DeregisterFromUpdateLoopNoType(UpdateType updateType)
-        {
-            /// Check if denied, then if i or my value object has callbacks registered
-            this.updater?.Deregister(updateType, this as BaseValue);
-        }
-
-        #endregion
 
         #region Callbacks
         
 
         public void RegisterCallback(params Action[] actions)
         {
-            if(RegisterActions(true, actions))
-            {
-                this.localUpdateTypeNoType = UpdateType.Immediate;
-            }
+            RegisterCallbackSilent(actions);
+                
+            OnValueChanged();
         }
 
         public void RegisterCallback(params Action<T>[] actions)
         {
-            if (RegisterActions(true, actions))
-            {
-                this.localUpdateType = UpdateType.Immediate;
-            }
-        }
+            RegisterCallbackSilent(actions);
 
-        public void RegisterCallbackSilent(params Action[] actions)
-        {
-            if(RegisterActions(false, actions))
-            {
-                this.localUpdateTypeNoType = UpdateType.Immediate;
-            }
+            OnValueChanged();
         }
-
-        public void RegisterCallbackSilent(params Action<T>[] actions)
-        {
-            if (RegisterActions(false, actions))
-            {
-                this.localUpdateType = UpdateType.Immediate;
-            }
-        }
-
         public void RegisterCallbackLate(params Action[] actions)
         {
-            if(RegisterActions(false, actions))
-            {
-                this.localUpdateTypeNoType = UpdateType.LateUpdate;
-                RegisterToUpdateLoopNoType(UpdateType.LateUpdate);
-            }                
+            RegisterCallbackLateSilent(actions);
+
+            OnValueChanged();
         }
 
         public void RegisterCallbackLate(params Action<T>[] actions)
         {
-            if (RegisterActions(false, actions))
-            {
-                this.localUpdateType = UpdateType.LateUpdate;
-                RegisterToUpdateLoop(UpdateType.LateUpdate);
-            }
+            RegisterCallbackLateSilent(actions);
+
+            OnValueChanged();
         }
+
+        public void RegisterCallbackSilent(params Action[] actions)
+        {
+            DeregisterCallBacksFromValueObject();
+
+            foreach(var action in actions)
+            {
+                this.onValueChangedNoType -= action;
+                this.onValueChangedNoType += action;
+            }
+
+            RegisterCallbacksToValueObject();
+        }
+
+        public void RegisterCallbackSilent(params Action<T>[] actions)
+        {
+            DeregisterCallBacksFromValueObject();
+
+            foreach(var action in actions)
+            {
+                this.onValueChanged -= action;
+                this.onValueChanged += action;
+            }
+
+            RegisterCallbacksToValueObject();
+        }
+
 
         public void RegisterCallbackLateSilent(params Action[] actions)
         {
-            if (RegisterActions(false, actions))
+            TryRegisterUpdater();
+
+            DeregisterCallBacksFromValueObject();
+
+            foreach(var action in actions)
             {
-                this.localUpdateTypeNoType = UpdateType.LateUpdate;
+                this.onValueChangedNoTypeLate -= action;
+                this.onValueChangedNoTypeLate += action;
             }
+
+            RegisterCallbacksToValueObject();
         }
 
         public void RegisterCallbackLateSilent(params Action<T>[] actions)
         {
-            if (RegisterActions(false, actions))
+            TryRegisterUpdater();
+
+            DeregisterCallBacksFromValueObject();
+
+            foreach(var action in actions)
             {
-                this.localUpdateType = UpdateType.LateUpdate;
+                this.onValueChangedLate -= action;
+                this.onValueChangedLate += action;
             }
+
+            RegisterCallbacksToValueObject();
         }
 
         public void DeregisterCallback(params Action[] actions)
         {
-            DeregisterActions(actions);           
+            DeregisterCallBacksFromValueObject();
+
+            foreach(var action in actions)
+            {
+                this.onValueChangedNoType -= action;
+                this.onValueChangedNoTypeLate -= action;
+            }
+
+            TryDeregisterUpdater();
         }
 
         public void DeregisterCallback(params Action<T>[] actions)
         {
-            DeregisterActions(actions);
-        }       
+            DeregisterCallBacksFromValueObject();
 
-        bool RegisterActions<A>(bool callActions, params A[] actions)
-        {
-            if (this.updater == null)
-                this.updater = ValueUpdater<V>.Instance;
-
-            if (Quitting)
-                return false;
-
-            if (actions == null || actions.Length == 0)
-                return false;
-                        
-            bool useRawValue = UseRawValue;
-            if(!useRawValue && this.valueObject == null)
+            foreach(var action in actions)
             {
-#if UNITY_EDITOR
-                Debug.LogWarning("No Scriptable Object Found, using Raw Value");
-#endif
+                this.onValueChanged -= action;
+                this.onValueChangedLate -= action;
             }
 
-            foreach(A action in actions)
-            {
-                switch(action)
-                {
-                    case Action:
-                        Action a0 = action as Action;
-                        this.OnValueChangedNoType -= a0;
-                        this.OnValueChangedNoType += a0;
-                        break;
-
-                    case Action<T>:
-                        Action<T> a1 = action as Action<T>;
-                        this.OnValueChanged -= a1;
-                        this.OnValueChanged += a1;
-                        break;
-                }
-            }
-
-            if (!useRawValue)
-            {
-                if(this.OnValueChanged != null)
-                    this.valueObject?.RegisterDelegate(this.OnValueChanged);
-                
-                if (this.OnValueChangedNoType != null)
-                    this.valueObject?.RegisterDelegateNoType(this.OnValueChangedNoType);
-            }
-
-            if (callActions)
-            {
-                Call();
-            }
-
-            return true;
-        }
-
-        void DeregisterActions<A>(A[] actions)
-        {
-            if(Quitting)
-                return;
-
-            DeregisterFromUpdateLoop(UpdateType.LateUpdate);
-            DeregisterFromUpdateLoopNoType(UpdateType.LateUpdate);
-
-            this.valueObject?.DeregisterDelegate(this.OnValueChanged);
-            this.valueObject?.DeregisterDelegateNoType(this.OnValueChangedNoType);
-            
-            if(actions != null && actions.Length > 0)
-            {
-                foreach(A action in actions)
-                {
-                    switch (action)
-                    {
-                        case Action:
-                            this.OnValueChangedNoType -= action as Action;
-                            break;
-
-                        case Action<T>:
-                            this.OnValueChanged -= action as Action<T>;
-                            break;
-                    }
-                }
-            }
+            TryDeregisterUpdater();
         }
         #endregion
 
-        public void CallOnValueChange()
+        void TryRegisterUpdater()
         {
-            if (this.localUpdateType == UpdateType.LateUpdate)
-            {
-                RegisterToUpdateLoop(UpdateType.LateUpdate);
-                return;
-            }
-
-            if (this.localUpdateTypeNoType == UpdateType.LateUpdate)
-            {
-                RegisterToUpdateLoopNoType(UpdateType.LateUpdate);
-                return;
-            }
-
-            Call();
+            if(this.updater == null)
+                this.updater = ValueUpdater<V>.Instance;
         }
 
-        public void Call()
+        void TryDeregisterUpdater()
+        {
+            if(this.onValueChangedLate == null && this.onValueChangedNoTypeLate == null)
+                this.updater = null;
+        }
+
+        public void OnValueChanged()
         {
             if (Quitting)
                 return;
 
+            Call();
+                        
+            this.updater?.RegisterLate(CallLate);
+        }
+
+        public void Call()
+        {           
             if (UseRawValue)
             {
-                this.OnValueChanged?.Invoke(this.value);
-                this.OnValueChangedNoType?.Invoke();                
+                this.onValueChanged?.Invoke(this.value);
+                this.onValueChangedNoType?.Invoke();                
             }
             else            
                 this.valueObject.Call();
+        }
+
+        public void CallLate()
+        {
+            if (UseRawValue)
+            {
+                this.onValueChangedLate?.Invoke(this.value);
+                this.onValueChangedNoTypeLate?.Invoke();
+            }
+            else
+                this.valueObject.CallLate();
         }
 
         public void CheckValueObjectChange()
@@ -312,15 +241,10 @@ namespace Dubi.BaseValues
             if (this.valueObject != this.oldValueObject)
             {
                 /// Take delegates from old and subscribe to new object
-                this.oldValueObject?.DeregisterDelegate(this.OnValueChanged);
-                this.oldValueObject?.DeregisterDelegateNoType(this.OnValueChangedNoType);
+                this.oldValueObject?.DeregisterCallback(this.onValueChanged, this.onValueChangedLate);
+                this.oldValueObject?.DeregisterCallback(this.onValueChangedNoType, onValueChangedNoTypeLate);
 
-                this.valueObject?.RegisterDelegate(this.OnValueChanged);
-                this.valueObject?.RegisterDelegateNoType(this.OnValueChangedNoType);
-
-                /// Force call send new values of new scriptable object
-                this.OnValueChanged?.Invoke(this.valueObject.value);
-                this.OnValueChangedNoType?.Invoke();
+                RegisterCallbacksToValueObject(true);
 
                 this.oldValueObject = this.valueObject;
             }
@@ -329,27 +253,35 @@ namespace Dubi.BaseValues
         public void CheckUseScriptableObject()
         {
             /// On Value Source Change            
-            if (this.UseRawValue)
-            {
-                if(this.valueObject != null)
-                {
-                    this.valueObject.DeregisterDelegate(this.OnValueChanged);
-                    this.valueObject.DeregisterDelegateNoType(this.OnValueChangedNoType);
-                }
-            }
-            else
-            {
-                if (this.OnValueChanged != null)                                    
-                    this.valueObject?.RegisterDelegate(this.OnValueChanged);
-                
-
-                if (this.OnValueChangedNoType != null)                                    
-                    this.valueObject?.RegisterDelegateNoType(this.OnValueChangedNoType);                
-            }
+            if (this.UseRawValue)            
+                DeregisterCallBacksFromValueObject();                                                
+            else            
+                RegisterCallbacksToValueObject();            
 
             this.oldUseScriptableObject = this.useScriptableObject;
 
-            Call();
+            OnValueChanged();
         }
+
+        void RegisterCallbacksToValueObject(bool call = false)
+        {
+            if (this.UseRawValue)
+                return;
+
+            this.valueObject?.RegisterCallbackSilent(this.onValueChanged);
+            this.valueObject?.RegisterCallbackLateSilent(this.onValueChangedLate);
+
+            this.valueObject?.RegisterCallbackSilent(this.onValueChangedNoType);
+            this.valueObject?.RegisterCallbackLateSilent(this.onValueChangedNoTypeLate);
+
+            if (call)
+                this.valueObject?.OnValueChanged();
+        }
+
+        void DeregisterCallBacksFromValueObject()
+        {
+            this.valueObject?.DeregisterCallback(this.onValueChanged, this.onValueChangedLate);
+            this.valueObject?.DeregisterCallback(this.onValueChangedNoType, onValueChangedNoTypeLate);
+        }        
     }
 }

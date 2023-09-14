@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Dubi.SingletonSpace;
+using System;
 
 namespace Dubi.BaseValues
 {
@@ -17,7 +18,7 @@ namespace Dubi.BaseValues
 
         [SerializeField] private bool persistent = true;
 
-        BaseValue[] late = new BaseValue[0];
+        Action lateCall = null;
 
         public static T Instance
         {
@@ -59,76 +60,34 @@ namespace Dubi.BaseValues
 
         private void Awake()
         {
-            if (this.persistent)
-            {
-                DontDestroyOnLoad(this.gameObject);
-            }
+            if (this.persistent)            
+                DontDestroyOnLoad(this.gameObject);            
         }      
 
         private void LateUpdate()
         {
-            Call(this.late);
-            this.late = new BaseValue[0];
+            if (this.LocalQuitting)
+                return;
+
+            this.lateCall?.Invoke();
+            this.lateCall = null;
         }     
 
-        void Call(BaseValue[] baseValues)
+        public void RegisterLate(Action callLate)
         {
-            if (!Quitting && baseValues.Length > 0)            
-                foreach (BaseValue baseValue in baseValues)                
-                    baseValue.Call();
+            if (this.LocalQuitting)
+                return;
+
+            this.lateCall -= callLate;
+            this.lateCall += callLate;
         }
 
-        public void Register(UpdateType updateType, params BaseValue[] items)
+        public void DeregisterLate(Action callLate)
         {
-            if (!Quitting)
-            {
-                List<BaseValue> current = new List<BaseValue>();
+            if (this.LocalQuitting)
+                return;
 
-                switch (updateType)
-                {
-                    case UpdateType.LateUpdate:
-                        current = this.late.ToList();
-                        break;
-                }
-
-                foreach (BaseValue item in items)                
-                    if (!current.Contains(item))                    
-                        current.Add(item);
-
-                switch (updateType)
-                {
-                    case UpdateType.LateUpdate:
-                        this.late = current.ToArray();
-                        break;
-                }
-            }
-        }
-
-        public void Deregister(UpdateType updateType, params BaseValue[] items)
-        {
-            if (!Quitting)
-            {
-                List<BaseValue> current = new List<BaseValue>();
-
-                switch (updateType)
-                {
-                    case UpdateType.LateUpdate:
-                        current = this.late.ToList();
-                        break;
-                }
-
-                foreach (BaseValue item in items)                
-                    if (current.Contains(item))                    
-                        current.Remove(item);                                      
-                
-
-                switch (updateType)
-                {         
-                    case UpdateType.LateUpdate:
-                        this.late = current.ToArray();
-                        break;
-                }
-            }
+            this.lateCall -= callLate;
         }
     }    
 }

@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 408efdde667bc524f965bf126f86eb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorValue:
+    forceScriptableObject: 0
+    useScriptableObject: 0
+    value: {r: 0, g: 0, b: 0, a: 0}
+    valueObject: {fileID: 11400000, guid: aee89c3feb24c324e917de25a68b8c9e, type: 2}
   colorCollection: {fileID: 11400000, guid: 961fba6c5926d534c9695e4659020275, type: 2}
-  colorSelection:
-    forceScriptableObject: 1
-    useScriptableObject: 1
-    value: 0
-    valueObject: {fileID: 11400000, guid: 3ad3a4c48bad9694bbe54e56bbb3d1ad, type: 2}
 --- !u!4 &425870590
 Transform:
   m_ObjectHideFlags: 0
@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 1704429824}
   - component: {fileID: 1704429826}
   - component: {fileID: 1704429825}
+  - component: {fileID: 1704429827}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -367,6 +368,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704429823}
   m_CullTransparentMesh: 1
+--- !u!114 &1704429827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704429823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 433a08ee096d76b4eaaa900eee5f6680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value:
+    forceScriptableObject: 0
+    useScriptableObject: 0
+    value: {r: 0, g: 0, b: 0, a: 0}
+    valueObject: {fileID: 11400000, guid: aee89c3feb24c324e917de25a68b8c9e, type: 2}
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1704429825}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Graphic, UnityEngine.UI
+        m_MethodName: set_color
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  silent:
+    forceScriptableObject: 0
+    useScriptableObject: 0
+    value: 1
+    valueObject: {fileID: 0}
+  late:
+    forceScriptableObject: 0
+    useScriptableObject: 0
+    value: 1
+    valueObject: {fileID: 0}
 --- !u!1 &1747119337
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1747119338
 MonoBehaviour:
   m_ObjectHideFlags: 0

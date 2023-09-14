@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0827f17723059b3479ca0874363d396f, type: 3}
   m_Name: New Color Value Object
   m_EditorClassIdentifier: 
-  value: {r: 0.23702662, g: 0.5188679, b: 0.2227216, a: 0.5058824}
+  value: {r: 0.23702662, g: 0.5188679, b: 0.2227216, a: 0.69411767}
   constantValue: 0

@@ -15,7 +15,7 @@ public class BaseValueInspector : Editor
         {
             base.serializedObject.ApplyModifiedProperties();
             if (base.target is BaseValue baseValue)
-                baseValue.Call();
+                baseValue.OnValueChanged();
         }
     }
 }

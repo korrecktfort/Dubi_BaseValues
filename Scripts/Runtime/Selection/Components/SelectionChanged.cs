@@ -7,5 +7,8 @@ namespace Dubi.BaseValues
     public abstract class SelectionChanged<T, U> : MonoBehaviour where T : BaseValue<U>
     {
         [SerializeField] T selection = default;
+
+        [SerializeField] BoolValue silent = null;
+        [SerializeField] BoolValue late = null;
     }
 }
