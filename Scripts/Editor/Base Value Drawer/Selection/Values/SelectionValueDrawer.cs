@@ -25,6 +25,7 @@ public abstract class SelectionValueDrawer<T, U> : BaseValueDrawer<T> where T : 
         SerializedProperty valueProp = BaseValueHelper.GetValueProp(property);
         SerializedProperty itemsProp = serializedValueObject.FindProperty("items");
 
+
         EditorGUI.BeginChangeCheck();
         position.height = EditorGUIUtility.singleLineHeight;
 
@@ -42,10 +43,27 @@ public abstract class SelectionValueDrawer<T, U> : BaseValueDrawer<T> where T : 
         }
         position.width = width;
 
+        if(!property.isExpanded)
+        {
+            EditorGUI.PropertyField(position, valueObject, new GUIContent(property.displayName), true);
+            return;
+        }
+
+        if (itemsProp.arraySize == 0)
+        {
+            EditorGUI.PropertyField(position, valueObject, new GUIContent(property.displayName), true);
+
+            position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.LabelField(position, "No Items");
+
+            return;
+        }
+
         position.width = EditorGUIUtility.labelWidth;
         EditorGUI.LabelField(position, label);
         position.x += position.width;
 
+       
         position.width = selectionWidth;
         int value = EditorGUI.Popup(position, valueProp.intValue, itemsProp.GetArrayIndexList().ToArray());
         position.x += position.width;
@@ -157,6 +175,12 @@ public abstract class SelectionValueDrawer<T, U> : BaseValueDrawer<T> where T : 
             return height;
 
         SerializedProperty itemsProp = serializedValueObject.FindProperty("items");
+
+        if(itemsProp.arraySize == 0)
+        {
+            height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            return height;
+        }
 
         for (int i = 0; i < itemsProp.arraySize; i++)
         {
