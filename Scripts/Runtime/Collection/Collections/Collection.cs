@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,29 +6,28 @@ using UnityEngine;
 
 namespace Dubi.BaseValues
 {
-
-    public abstract class Collection<T> : BaseValueObject<List<T>>
+    public abstract class Collection<T> : BaseValueObject<T[]>
     {        
         public List<T> List
         {
-            get => this.list;
+            get => base.value.ToList();
             set
             {
-                this.list = value;
+                base.value = value.ToArray();
                 base.OnValueChanged();
             }
         }
 
         public T[] Array {
-            get => this.list.ToArray();
+            get => base.value;
 
             set
             {
-                this.list = value.ToList();
+                base.value = value;
+                base.OnValueChanged();
             }
         }
 
-        [SerializeField] List<T> list = new List<T>();
 
         /// <summary>
         /// Adds item to the list, if denyContaining is true, it will not add the item if it already exists in the list
@@ -36,17 +36,17 @@ namespace Dubi.BaseValues
         /// <param name="denyContaining"></param>
         public void Add(T item, bool denyContaining = true)
         {
-            if (denyContaining && this.list.Contains(item))
+            if (denyContaining && base.value.Contains(item))
                 return;
 
-            this.list.Add(item);
+            this.List.Add(item);
 
             base.OnValueChanged();
         }
 
         public void Remove(T item)
         {
-            this.list.Remove(item);
+            this.List.Remove(item);
 
             base.OnValueChanged();
         }

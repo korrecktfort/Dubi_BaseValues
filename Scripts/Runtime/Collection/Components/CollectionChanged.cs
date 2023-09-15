@@ -5,10 +5,10 @@ using UnityEngine.Events;
 
 namespace Dubi.BaseValues
 {
-    public abstract class CollectionChanged<T, U> : MonoBehaviour where T : BaseValue<List<U>>
+    public abstract class CollectionChanged<T, U> : MonoBehaviour where T : BaseValue<U[]>
     {
         [SerializeField] T collection = default;
-        [SerializeField] UnityEvent<List<U>> onCollectionChanged = default;
+        [SerializeField] UnityEvent<U[]> onCollectionChanged = default;
 
         [SerializeField] BoolValue silent = null;
         [SerializeField] BoolValue late = null;
@@ -44,7 +44,7 @@ namespace Dubi.BaseValues
             this.collection.DeregisterCallback(OnCollectionChanged);
         }
 
-        void OnCollectionChanged(List<U> collection)
+        void OnCollectionChanged(U[] collection)
         {
             this.onCollectionChanged?.Invoke(collection);
         }
