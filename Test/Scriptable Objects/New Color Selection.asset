@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baed2d3a7d55ed47ad95379a7dddb60, type: 3}
   m_Name: New Color Selection
   m_EditorClassIdentifier: 
-  value: {r: 0, g: 0, b: 0, a: 0}
+  value: {r: 0.9150943, g: 0.5876193, b: 0.20287468, a: 1}
   selectionIndex: 0
   collection: {fileID: 11400000, guid: 961fba6c5926d534c9695e4659020275, type: 2}
